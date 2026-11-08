@@ -1,11 +1,11 @@
 # RideConnect MVP
 
-A mobile-friendly front-end demo for RideConnect, a ride-hailing concept starting in Mbala, Northern Province, Zambia. This repository currently uses plain HTML, CSS and JavaScript so it can be tried without a build step or package installation.
+A mobile-friendly front-end demo for RideConnect, a ride-hailing concept starting in Mbala, Northern Province, Zambia. The current implementation uses plain HTML, CSS and JavaScript and runs without a build step or package installation.
 
 ## Run locally
 
-1. Clone the repository and check out `copilot/rideconnect-mvp` (or the branch you are developing).
-2. Open `index.html` in a modern browser, or serve this folder with any static file server, for example:
+1. Clone the repository and check out `copilot/rideconnect-mvp` (or your development branch).
+2. Open `index.html` in a modern browser, or serve this folder with a static file server:
 
    ```bash
    python3 -m http.server 8000
@@ -13,22 +13,35 @@ A mobile-friendly front-end demo for RideConnect, a ride-hailing concept startin
 
 3. Visit `http://localhost:8000`.
 
-No dependency install, API key, or environment variables are required. The Google Fonts link is optional; the page falls back to system sans-serif fonts if offline.
+No dependency install, API key, or environment variables are required. Google Fonts are optional; system sans-serif fonts are used if the font service is unavailable.
 
 ## Demo features
 
-- Responsive RideConnect landing page and navigation.
-- Passenger and driver registration/login screens using Zambian mobile number validation (9 digits after optional `+260` or leading `0`; mobile prefixes 7 or 9).
-- Passenger ride request form with pickup, destination, passenger count, phone number and a clearly labelled illustrative fare estimate in Zambian Kwacha.
-- Driver availability toggle and accept/reject actions for sample scenarios and requests created in the passenger flow.
-- Admin overview of local demo profiles and real demo-form requests, with driver availability controls.
-- Demo profiles and requests persist in the current browser using `localStorage`; they are not sent to a server. Use the same browser/device to see shared demo data across the screens. Clear site data to reset it.
+- Responsive RideConnect landing page and navigation, with passenger and driver registration/login tabs.
+- Zambian mobile number validation accepts 9-digit mobile numbers beginning with 7 or 9, optionally written with `+260`, `260`, or a leading `0`; spaces, hyphens and parentheses are permitted as formatting. Other characters and invalid lengths/prefixes are rejected.
+- Passenger ride request form with pickup, destination, passenger count, phone number, a visibly labelled illustrative estimate in Zambian Kwacha, and a request list with cancellation for pending requests.
+- Driver dashboard with two clearly marked sample scenarios and passenger-created demo requests. A registered demo driver can set availability and accept/reject requests; sample decisions persist in the browser.
+- Admin overview of locally registered demo profiles, driver availability, and passenger-created requests. Sample driver scenarios are not counted as passenger bookings in the admin statistics.
+- Demo profiles and requests persist in the current browser using `localStorage`; all views share this browser-local data. Clear site data to reset it.
 
 ## Important limitations
 
-This is a user-interface MVP, not a deployed ride-hailing service. There is no backend, database, secure identity verification, password-based authentication, dispatch, payment integration, SMS/phone verification, route calculation, live GPS, or real driver network. Login is a local demo lookup by phone number and must not be used to protect real accounts. The admin view is also not access-controlled. Demo fare values are illustrative placeholders, not actual market prices or a fare quote. Sample driver requests are explicitly labelled and are not real bookings. Do not enter real personal data.
+This is a user-interface MVP, not a deployed ride-hailing service. There is no backend, database, secure authentication or identity verification, password-based login, protected admin authorization, dispatch service, payment integration, SMS/phone verification, route calculation, live GPS, or connected driver network. Login is a local demo lookup by phone number and is not account security. The admin view is not access-controlled. Data remains in one browser/device and should be fictional; do not enter real personal information.
 
-Before launch, add a server-side API and persistent database, proper authentication and authorization (including protected admin access), consent and privacy/security practices, validated Mbala fare and route rules, operational driver onboarding, and any required communications and payment providers. Keep all service credentials on the server, never in browser code.
+Fare figures are generated by a simple deterministic demo formula and are not based on route distance, actual Mbala rates, a pricing provider, or a quote. Sample scenarios and their displayed fare figures are fictional UI data, not actual drivers, bookings, operating services, or market prices. No live driver is contacted when a passenger submits a request.
+
+Before launch, add a server-side API and persistent database, proper authentication and authorization (including protected admin access), privacy/security practices, validated Mbala fare and route rules, operational driver onboarding, and any needed communications/payment providers. Keep service credentials on the server, never in browser code.
+
+## Review and testing notes
+
+The JavaScript, form flows, route handling, browser storage handling, action delegation, and markup-linked element IDs were reviewed and corrected for the demo flows. The app has no configured automated test suite or build command. Browser/device QA is still needed for actual interaction and layout behavior, including the manual smoke-test checklist below:
+
+1. Open each header/footer navigation entry and use browser back/forward; verify the header Log in button opens the login tab.
+2. Register and log in with demo passenger and driver profiles using valid and invalid Zambian phone formats.
+3. Submit a passenger request with distinct locations and verify its estimate, request card, cancellation, driver view, and admin counts; test missing/equal locations and invalid phone numbers.
+4. As a registered driver, toggle availability, attempt to accept while unavailable, then accept/reject requests while available; reload and verify availability and sample decisions persist.
+5. Check empty/populated admin lists and use the admin driver availability control.
+6. Inspect at narrow mobile width and a desktop viewport; confirm navigation, forms, cards and dashboards fit and remain operable.
 
 ## Project files
 
